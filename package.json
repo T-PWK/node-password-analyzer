@@ -1,0 +1,38 @@
+{
+  "name": "node-password-analyzer",
+  "version": "0.0.1",
+  "description": "",
+  "main": "bin/node-password-analyzer-cli.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/T-PWK/node-password-analyzer.git"
+  },
+  "bin": {
+    "node-password-analyzer": "./bin/node-password-analyzer-cli.js"
+  },
+  "contributors": [],
+  "keywords": [
+    "password",
+    "analysis"
+  ],
+  "author": {
+    "name": "Tom Pawlak",
+    "url": "http://blog.tompawlak.org"
+  },
+  "homepage": "https://github.com/T-PWK/node-password-analyzer",
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://blog.tompawlak.org/mit-license"
+    }
+  ],
+  "bugs": {
+    "url": "https://github.com/T-PWK/node-password-analyzer/issues"
+  },
+  "dependencies": {
+    "commander": "^2.5.0"
+  }
+}
