@@ -4,7 +4,6 @@ var program = require('commander');
 var fs = require('fs');
 var pkg = require('../package.json');
 
-
 program
   .version(pkg.version)
   .usage('[options] <file>')
@@ -16,6 +15,19 @@ program
 program.parse(process.argv)
 
 console.log(program)
+
+console.log(",------.                                                   ,--.")
+console.log("|  .--. ' ,--,--. ,---.  ,---. ,--.   ,--. ,---. ,--.--. ,-|  |")
+console.log("|  '--' |' ,-.  |(  .-' (  .-' |  |.'.|  || .-. ||  .--'' .-. |")
+console.log("|  | --' \\ '-'  |.-'  `).-'  `)|   .'.   |' '-' '|  |   \\ `-' |")
+console.log("`--'      `--`--'`----' `----' '--'   '--' `---' `--'    `---'")
+console.log("  ,---.                  ,--.")
+console.log(" /  O  \\ ,--,--,  ,--,--.|  |,--. ,--.,-----. ,---. ,--.--.")
+console.log("|  .-.  ||      \\' ,-.  ||  | \\  '  / `-.  / | .-. :|  .--'")
+console.log("|  | |  ||  ||  |\\ '-'  ||  |  \\   '   /  `-.\\   --.|  |")
+console.log("`--' `--'`--''--' `--`--'`--'.-'  /   `-----' `----'`--'")
+console.log("                             `---'")
+
 
 function verifyFile(hasToExist, file) {
   if (hasToExist !== fs.existsSync(file)) {
@@ -30,3 +42,4 @@ function fileNotFoundInfo(file) {
   console.log('  error: file \'%s\' does not exist', file);
   console.log('');
 }
+
