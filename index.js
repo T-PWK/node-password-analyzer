@@ -2,13 +2,15 @@ var util = require('util');
 var analyzers = require('./lib/analyzers');
 var Group = require('./lib/group');
 
-var test = ['123456', 'foobar', 'xyz', 'FOOBAR', 'FooBar34'];
+var test = ['123456', 'foobar', 'xyz', 'FOOBAR', 'FooBar34', 'January', 'mArcH'];
 
 function analyze (passwords) {
 
 	var analyzer = new PasswordAnalyzer();
-	analyzer.addGroup('foo bar 1', analyzers.DigitsOnlyAnalyzer);
-	analyzer.addGroup('foo bar 2', 'numeric');
+	analyzer.addGroup('Character sets', ['numeric', 'loweralpha', 'upperalpha']);
+	analyzer.addGroup('Hashcat masks', ['numeric', 'loweralpha', 'upperalpha']);
+	analyzer.addGroup('Months', ['months']);
+	
 
 	passwords.forEach(function (passwd) {
 		analyzer.analyze(passwd);
