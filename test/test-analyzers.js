@@ -122,4 +122,23 @@ describe('Analyzers', function () {
         });
     });
 
+    describe('Password length analyzer', function () {
+        var analyzer = new analyzers['length'];
+
+        it('should populate results with length for each password', function () {
+            var results = {};
+
+            analyzer.analyze('a', results);
+            analyzer.analyze('abcd', results);
+            analyzer.analyze('foobar', results);
+            analyzer.analyze('x', results);
+
+            assert.equal(results['1'], 2);
+            assert.equal(results['4'], 1);
+            assert.equal(results['6'], 1);
+            assert(!results['2']);
+        });
+
+    });
+
 });
