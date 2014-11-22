@@ -2,7 +2,7 @@
   "name": "node-password-analyzer",
   "version": "0.0.1",
   "description": "",
-  "main": "bin/node-password-analyzer-cli.js",
+  "main": "index.js",
   "scripts": {
     "test": "node test.js"
   },

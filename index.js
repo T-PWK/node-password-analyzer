@@ -1,24 +1,15 @@
 var util = require('util');
 var analyzers = require('./lib/analyzers');
 
-// function analyze (passwords) {
-
-// 	var analyzer = new PasswordAnalyzer();
-// 	analyzer.addGroup('Character sets', ['numeric', 'loweralpha', 'upperalpha']);
-// 	analyzer.addGroup('Hashcat masks', ['numeric', 'loweralpha', 'upperalpha']);
-// 	analyzer.addGroup('Months', ['months']);
-	
-
-// 	passwords.forEach(function (passwd) {
-// 		analyzer.analyze(passwd);
-// 	});
-
-// 	console.log(util.inspect(analyzer, {depth: 5, colors: true}));
-// }
-
 function PasswordAnalyzer (options) {
 	options = options || {};
 	this._groups = [];
+
+	if(options.groups) {
+		options.groups.forEach(function (group) {
+			this.addGroup(group.name, group.analyzers);
+		}, this);
+	}
 }
 
 PasswordAnalyzer.prototype.addGroup = function (name, analyzersOrFn) {
@@ -53,6 +44,13 @@ PasswordAnalyzer.prototype.analyze = function (password) {
 	});
 };
 
+PasswordAnalyzer.prototype.getResults = function() {
+	return this._groups.reduce(function (memo, group) {
+		memo[group.name] = group.getResults();
+		return memo;
+	}, {});
+};
+
 function Group (name, analyzers) {
 	this.name = name || '[group]';
 	this._results = { total: 0 };
@@ -84,7 +82,11 @@ Group.prototype.analyze = function (password) {
 	}, this);
 };
 
+Group.prototype.getResults = function() {
+	return this._results;
+};
+
 module.exports = {
 	PasswordAnalyzer: PasswordAnalyzer,
-	analyzers: analyzer
+	analyzers: analyzers
 }
