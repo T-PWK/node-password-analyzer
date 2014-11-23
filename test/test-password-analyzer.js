@@ -3,12 +3,12 @@ var analyzer = require('..');
 
 var passwords = [
 	'123456', 'abcdef'
-]
+];
 
 describe("PasswordAnalyzer", function () {
 	describe('constructor', function () {
 
-		it('foo ...', function () {
+		it('should setup groups and analyzers from properties', function () {
 
 			var passwordAnalyzer = new analyzer.PasswordAnalyzer({
 				groups: [
@@ -17,18 +17,35 @@ describe("PasswordAnalyzer", function () {
 				]
 			});
 
+			// Analyze passwords
 			passwords.forEach(passwordAnalyzer.analyze.bind(passwordAnalyzer));
 
-			console.log(passwordAnalyzer.getResults());
+			assert.deepEqual(
+				passwordAnalyzer.getResults(), 
+				{ 
+					'Character sets': { total: 2, numeric: 1, loweralpha: 1, upperalpha: 0 },
+					Months: { total: 2 } 
+				});
 		});
+	});
+
+	describe('addGroup', function () {
 		
-		it('bar ...', function () {
+		it('should setup groups with analyzers', function () {
 			var passwordAnalyzer = new analyzer.PasswordAnalyzer();
 
 			passwordAnalyzer.addGroup('Character sets', ['numeric', 'loweralpha', 'upperalpha']);
 			passwordAnalyzer.addGroup('Months', ['months']);
 
+			// Analyze passwords
 			passwords.forEach(passwordAnalyzer.analyze.bind(passwordAnalyzer));
+
+			assert.deepEqual(
+				passwordAnalyzer.getResults(), 
+				{ 
+					'Character sets': { total: 2, numeric: 1, loweralpha: 1, upperalpha: 0 },
+					Months: { total: 2 } 
+				});
 		});
 
 	});

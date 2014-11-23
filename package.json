@@ -1,5 +1,5 @@
 {
-  "name": "node-password-analyzer",
+  "name": "password-analyzer",
   "version": "0.0.1",
   "description": "",
   "main": "index.js",
@@ -9,9 +9,6 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/T-PWK/node-password-analyzer.git"
-  },
-  "bin": {
-    "node-password-analyzer": "./bin/node-password-analyzer-cli.js"
   },
   "contributors": [],
   "keywords": [
@@ -31,8 +28,5 @@
   ],
   "bugs": {
     "url": "https://github.com/T-PWK/node-password-analyzer/issues"
-  },
-  "dependencies": {
-    "commander": "^2.5.0"
   }
 }

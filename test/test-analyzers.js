@@ -4,10 +4,10 @@ var analyzers = require('../lib/analyzers');
 describe('Analyzers', function () {
 	
     describe('Months analyzer', function () {
-        var analyzer = new analyzers['months'];
+        var analyzer = new analyzers.MonthsAnalyzer();
 
 		it('should match passwords that are composed from month names only no matther the letter case', function () {
-            var results = {}
+            var results = {};
             analyzer.analyze('january', results);
             analyzer.analyze('JANUARY', results);
             analyzer.analyze('January', results);
@@ -21,7 +21,7 @@ describe('Analyzers', function () {
 		});
 
 		it('should match entire line of text, not find a containing text', function () {
-            var results = {}
+            var results = {};
             analyzer.analyze(' january', results);
             analyzer.analyze('JANUARY ', results);
             analyzer.analyze('January.', results);
@@ -33,7 +33,7 @@ describe('Analyzers', function () {
 	});
 
     describe('Numeric analyzer', function () {
-        var analyzer = new analyzers['numeric'];
+        var analyzer = new analyzers.DigitsOnlyAnalyzer();
 
         it('should match passwords that are composed from numbers only', function () {
             var results = {};
@@ -47,7 +47,7 @@ describe('Analyzers', function () {
         });
 
         it('should not match passwords having at least one character which is not a number', function () {
-            var results = { numeric: 0 }
+            var results = { numeric: 0 };
             analyzer.analyze(' 00001212', results);
             analyzer.analyze('123456 ', results);
             analyzer.analyze('123,234,233', results);
@@ -57,7 +57,7 @@ describe('Analyzers', function () {
     });
 
     describe('Letters only analyzer', function () {
-        var analyzer = new analyzers['lowerupperalpha'];
+        var analyzer = new analyzers.LettersOnlyAnalyzer();
 
         it('should match passwords that are composed from lower and upper letters only', function () {
             var results = {};
@@ -70,7 +70,7 @@ describe('Analyzers', function () {
         });
 
         it('should not match passwords having at least one character which is not a letter', function () {
-            var results = { lowerupperalpha: 0 }
+            var results = { lowerupperalpha: 0 };
             analyzer.analyze(' abcd', results);
             analyzer.analyze('ABC1', results);
 
@@ -79,7 +79,7 @@ describe('Analyzers', function () {
     });
 
     describe('Upper letters only analyzer', function () {
-        var analyzer = new analyzers['upperalpha'];
+        var analyzer = new analyzers.CapitalLettersOnlyAnalyzer();
 
         it('should match passwords that are composed from upper letters only', function () {
             var results = {};
@@ -91,7 +91,7 @@ describe('Analyzers', function () {
         });
 
         it('should not match passwords having at least one character which is not an upper letter', function () {
-            var results = { upperalpha: 0 }
+            var results = { upperalpha: 0 };
             analyzer.analyze(' abcd', results);
             analyzer.analyze('ABC1', results);
             analyzer.analyze('ABCd', results);
@@ -101,7 +101,7 @@ describe('Analyzers', function () {
     });
 
     describe('Upper letters only analyzer', function () {
-        var analyzer = new analyzers['loweralpha'];
+        var analyzer = new analyzers.LowerLettersOnlyAnalyzer();
 
         it('should match passwords that are composed from lower letters only', function () {
             var results = {};
@@ -113,7 +113,7 @@ describe('Analyzers', function () {
         });
 
         it('should not match passwords having at least one character which is not a lower letter', function () {
-            var results = { loweralpha: 0 }
+            var results = { loweralpha: 0 };
             analyzer.analyze(' abcd', results);
             analyzer.analyze('abc1', results);
             analyzer.analyze('abcD', results);
@@ -123,7 +123,7 @@ describe('Analyzers', function () {
     });
 
     describe('Password length analyzer', function () {
-        var analyzer = new analyzers['length'];
+        var analyzer = new analyzers.PasswordLengthAnalyzer();
 
         it('should populate results with length for each password', function () {
             var results = {};
