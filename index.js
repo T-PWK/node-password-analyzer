@@ -1,18 +1,20 @@
 (function () {
 	'use strict';
 	
-	var util = require('util');
+	var isArray = require('util').isArray;
 	var analyzers = require('./lib/analyzers');
 
-	function PasswordAnalyzer (options) {
-		options = options || {};
-		this._groups = [];
+	var analyzersMapping = {
+		numeric: 			analyzers.DigitsOnlyAnalyzer,
+		lowerupperalpha: 	analyzers.LettersOnlyAnalyzer,
+		upperalpha: 		analyzers.CapitalLettersOnlyAnalyzer,
+		loweralpha: 		analyzers.LowerLettersOnlyAnalyzer,
+		months: 			analyzers.MonthsAnalyzer,
+		bylength: 			analyzers.PasswordLengthAnalyzer
+	};
 
-		if(options.groups) {
-			options.groups.forEach(function (group) {
-				this.addGroup(group.name, group.analyzers);
-			}, this);
-		}
+	function PasswordAnalyzer (options) {
+		this._groups = [];
 	}
 
 	PasswordAnalyzer.prototype.addGroup = function (name, analyzersOrFn) {
@@ -33,7 +35,7 @@
 			this._groups.push(group);
 		}
 
-		if(util.isArray(analyzersOrFn)) {
+		if(isArray(analyzersOrFn)) {
 			analyzersOrFn.forEach(group.addAnalyzer.bind(group));
 		}
 		else {
@@ -59,7 +61,7 @@
 		this._results = { total: 0 };
 		this._analyzers = [];
 
-		if(util.isArray(analyzers)) {
+		if(isArray(analyzers)) {
 			this._analyzers = this._analyzers.concat(analyzers);
 		} else if(analyzers) {
 			this.analyzers.push(analyzers);
@@ -67,11 +69,11 @@
 	}
 
 	Group.prototype.addAnalyzer = function (analyzer) {
-		if(util.isFunction(analyzer)) {
+		if(isFunction(analyzer)) {
 			this._analyzers.push(new analyzer());
 		}
 		else if(typeof analyzer === 'string') {
-			this._analyzers.push(new analyzers[analyzer]());
+			this._analyzers.push(new analyzersMapping[analyzer]());
 		}
 		else {
 			this._analyzers.push(analyzer);
@@ -93,5 +95,9 @@
 		PasswordAnalyzer: PasswordAnalyzer,
 		analyzers: analyzers
 	};
+
+	function isFunction(object) {
+		return !!(object && object.constructor && object.call && object.apply);
+	}
 }());
 
