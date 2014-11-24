@@ -183,6 +183,75 @@
 				assert.equal(findItemByCode(results, '2'), null);
 			});
 		});
+
+		describe('Mask analyzer', function () {
+			var analyzer;
+
+			it('should throw exception if mask is invalid', function () {
+				assert.throws(function () { new analyzers.MaskAnalyzer(); });
+				assert.throws(function () { new analyzers.MaskAnalyzer(''); });
+				assert.throws(function () { new analyzers.MaskAnalyzer('foo'); });
+			});
+
+			describe('should create analyzer', function () {
+
+				it("should analyze passwords with mask '?l?l?l?l'", function () {
+					var analyzer = new analyzers.MaskAnalyzer('?l?l?l?l');
+
+					analyzer.analyze('abcd');
+					analyzer.analyze('abcde');
+					analyzer.analyze('Abcd');
+
+					var results = analyzer.getResults();
+
+					assert.equal(results.length, 1);
+					assert.equal(results[0].code, '?l?l?l?l');
+					assert.equal(results[0].count, 1);
+				});
+
+				it("should analyze passwords with mask '?u?u?u?u'", function () {
+					var analyzer = new analyzers.MaskAnalyzer('?u?u?u?u');
+
+					analyzer.analyze('ABCD');
+					analyzer.analyze('ABCDE');
+					analyzer.analyze('Abcd');
+
+					var results = analyzer.getResults();
+
+					assert.equal(results.length, 1);
+					assert.equal(results[0].code, '?u?u?u?u');
+					assert.equal(results[0].count, 1);
+				});
+
+				it("should analyze passwords with mask '?d?d?d?d'", function () {
+					var analyzer = new analyzers.MaskAnalyzer('?d?d?d?d');
+
+					analyzer.analyze('1234');
+					analyzer.analyze('12345');
+					analyzer.analyze('1234a');
+
+					var results = analyzer.getResults();
+
+					assert.equal(results.length, 1);
+					assert.equal(results[0].code, '?d?d?d?d');
+					assert.equal(results[0].count, 1);
+				});
+
+				it("should analyze passwords with mask '?s?s?s?s'", function () {
+					var analyzer = new analyzers.MaskAnalyzer('?s?s?s?s');
+
+					analyzer.analyze('**{}');
+					analyzer.analyze('**{}*');
+					analyzer.analyze('**{}a');
+
+					var results = analyzer.getResults();
+
+					assert.equal(results.length, 1);
+					assert.equal(results[0].code, '?s?s?s?s');
+					assert.equal(results[0].count, 1);
+				});
+			});
+		});
 	});
 
 	function findItemByCode (results, code) {
