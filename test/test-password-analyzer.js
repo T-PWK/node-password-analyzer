@@ -2,17 +2,24 @@ var assert = require('assert');
 var analyzer = require('..');
 var analyzers = require('../lib/analyzers');
 
-var passwords = [
-	'123456', 'abcdef'
-];
+var passwords = [ '123456', 'abcdef', 'foobar', 'ABC', 'January' ];
 
 describe("PasswordAnalyzer", function () {
 
 	describe('addGroup', function () {
 		var passwordAnalyzer;
 		var expectedResults = {
-			'Character sets': { total: 2, numeric: 1, loweralpha: 1, upperalpha: 0 },
-			'Months': { total: 2 } 
+			total: 5,
+			groups: [
+				{ name: 'Character sets', analyzers:[
+					{ code: 'numeric', count: 1 },
+					{ code: 'loweralpha', count: 2 },
+					{ code: 'upperalpha', count: 1 }]
+				},
+				{ name: 'Months', analyzers: [
+					{ code: 'january', count: 1 }]
+				}
+			]
 		};
 
 		// Verify if required analyzers are available

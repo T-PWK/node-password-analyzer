@@ -99,6 +99,8 @@
 			Array.prototype.push.apply(results, analyzer.getResults());
 			return results;
 		}, results.analyzers);
+
+		return results;
 	};
 
 	module.exports = {
