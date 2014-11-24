@@ -13,7 +13,7 @@
 		bylength:			analyzers.PasswordLengthAnalyzer
 	};
 
-	function PasswordAnalyzer (options) {
+	function PasswordAnalyzer () {
 		this._groups = [];
 		this._total = 0;
 	}

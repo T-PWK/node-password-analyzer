@@ -7,6 +7,36 @@ var passwords = [ '123456', 'abcdef', 'foobar', 'ABC', 'January' ];
 describe("PasswordAnalyzer", function () {
 
 	describe('addGroup', function () {
+
+		it('should throw an execption if analyzer has not been provided', function () {
+			var passwordAnalyzer = new analyzer.PasswordAnalyzer();
+			
+			assert.throws(function () {
+				passwordAnalyzer.addGroup('Group name');
+			});
+		});
+
+		it('should use existing group if a group with the same name has been added', function () {
+			var passwordAnalyzer = new analyzer.PasswordAnalyzer();
+
+			passwordAnalyzer.addGroup('Group', 'numeric');
+			passwordAnalyzer.addGroup('Group', 'loweralpha');
+
+			['123456', 'abcdef'].forEach(passwordAnalyzer.analyze.bind(passwordAnalyzer));
+
+			var results = passwordAnalyzer.getResults();
+			assert.deepEqual(results, {
+				total: 2, groups: [
+					{ 
+						name: 'Group', 
+						analyzers:[ { code: 'numeric', count: 1 }, { code: 'loweralpha', count: 1 } ]
+					}
+				]
+			});
+		});
+	});
+
+	describe('addGroup', function () {
 		var passwordAnalyzer;
 		var expectedResults = {
 			total: 5,
