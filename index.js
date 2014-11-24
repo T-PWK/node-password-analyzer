@@ -96,7 +96,7 @@
 		var results = { name: this.name, analyzers:[] };
 
 		this._analyzers.reduce(function (results, analyzer) {
-			results.push(analyzer.getResults());
+			Array.prototype.push.apply(results, analyzer.getResults());
 			return results;
 		}, results.analyzers);
 	};
