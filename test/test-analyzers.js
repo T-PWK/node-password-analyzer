@@ -241,6 +241,9 @@
 					var analyzer = new analyzers.MaskAnalyzer('?s?s?s?s');
 
 					analyzer.analyze('**{}');
+					analyzer.analyze(' *[]');
+					analyzer.analyze(' *[!');
+					analyzer.analyze(' !`@');
 					analyzer.analyze('**{}*');
 					analyzer.analyze('**{}a');
 
@@ -248,7 +251,7 @@
 
 					assert.equal(results.length, 1);
 					assert.equal(results[0].code, '?s?s?s?s');
-					assert.equal(results[0].count, 1);
+					assert.equal(results[0].count, 4);
 				});
 			});
 		});
