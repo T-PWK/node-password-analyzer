@@ -11,13 +11,17 @@ describe("PasswordAnalyzer", function () {
 		var expectedResults = {
 			total: 5,
 			groups: [
-				{ name: 'Character sets', analyzers:[
-					{ code: 'numeric', count: 1 },
-					{ code: 'loweralpha', count: 2 },
-					{ code: 'upperalpha', count: 1 }]
+				{ 
+					name: 'Character sets', 
+					analyzers:[
+						{ code: 'numeric', count: 1 },
+						{ code: 'loweralpha', count: 2 },
+						{ code: 'upperalpha', count: 1 }
+					]
 				},
-				{ name: 'Months', analyzers: [
-					{ code: 'january', count: 1 }]
+				{ 
+					name: 'Months', 
+					analyzers: [ { code: 'january', count: 1 } ]
 				}
 			]
 		};
