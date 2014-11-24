@@ -5,16 +5,17 @@
 	var analyzers = require('./lib/analyzers');
 
 	var analyzersMapping = {
-		numeric: 			analyzers.DigitsOnlyAnalyzer,
-		lowerupperalpha: 	analyzers.LettersOnlyAnalyzer,
-		upperalpha: 		analyzers.CapitalLettersOnlyAnalyzer,
-		loweralpha: 		analyzers.LowerLettersOnlyAnalyzer,
-		months: 			analyzers.MonthsAnalyzer,
-		bylength: 			analyzers.PasswordLengthAnalyzer
+		numeric:			analyzers.DigitsOnlyAnalyzer,
+		lowerupperalpha:	analyzers.LettersOnlyAnalyzer,
+		upperalpha:			analyzers.CapitalLettersOnlyAnalyzer,
+		loweralpha:			analyzers.LowerLettersOnlyAnalyzer,
+		months:				analyzers.MonthsAnalyzer,
+		bylength:			analyzers.PasswordLengthAnalyzer
 	};
 
 	function PasswordAnalyzer (options) {
 		this._groups = [];
+		this._total = 0;
 	}
 
 	PasswordAnalyzer.prototype.addGroup = function (name, analyzersOrFn) {
@@ -44,21 +45,24 @@
 	};
 
 	PasswordAnalyzer.prototype.analyze = function (password) {
+		this._total++;
 		this._groups.forEach(function (group) {
 			group.analyze(password);
 		});
 	};
 
 	PasswordAnalyzer.prototype.getResults = function() {
-		return this._groups.reduce(function (memo, group) {
-			memo[group.name] = group.getResults();
-			return memo;
-		}, {});
+		var results = { total: this._total, groups: [] };
+
+		return this._groups.reduce(function (results, group) {
+			results.groups.push(group.getResults());
+			return results;
+		}, results);
 	};
 
 	function Group (name, analyzers) {
 		this.name = name || '[group]';
-		this._results = { total: 0 };
+		this._results = {};
 		this._analyzers = [];
 
 		if(isArray(analyzers)) {
@@ -70,6 +74,7 @@
 
 	Group.prototype.addAnalyzer = function (analyzer) {
 		if(isFunction(analyzer)) {
+			/*jshint -W055 */
 			this._analyzers.push(new analyzer());
 		}
 		else if(typeof analyzer === 'string') {
@@ -88,7 +93,12 @@
 	};
 
 	Group.prototype.getResults = function() {
-		return this._results;
+		var results = { name: this.name, analyzers:[] };
+
+		this._analyzers.reduce(function (results, analyzer) {
+			results.push(analyzer.getResults());
+			return results;
+		}, results.analyzers);
 	};
 
 	module.exports = {
@@ -100,4 +110,3 @@
 		return !!(object && object.constructor && object.call && object.apply);
 	}
 }());
-

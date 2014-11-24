@@ -1,49 +1,61 @@
 var assert = require('assert');
+var util = require('util');
 var analyzers = require('../lib/analyzers');
 
 describe('Analyzers', function () {
 	
     describe('Months analyzer', function () {
-        var analyzer = new analyzers.MonthsAnalyzer();
+        var analyzer;
+
+        beforeEach(function () {
+            analyzer = new analyzers.MonthsAnalyzer();
+        });
 
 		it('should match passwords that are composed from month names only no matther the letter case', function () {
-            var results = {};
-            analyzer.analyze('january', results);
-            analyzer.analyze('JANUARY', results);
-            analyzer.analyze('January', results);
-            analyzer.analyze('februarY', results);
+            
+            analyzer.analyze('january');
+            analyzer.analyze('JANUARY');
+            analyzer.analyze('January');
+            analyzer.analyze('februarY');
 
-            assert(results.january);
-            assert(results.february);
+            var results = analyzer.getResults();
 
-            assert.equal(results.january, 3);
-            assert.equal(results.february, 1);
+			assert(util.isArray(results));
+            assert.equal(results.length, 2);
+
+            // assert(results.february);
+
+            // assert.equal(results.january, 3);
+            // assert.equal(results.february, 1);
 		});
 
 		it('should match entire line of text, not find a containing text', function () {
-            var results = {};
             analyzer.analyze(' january', results);
             analyzer.analyze('JANUARY ', results);
             analyzer.analyze('January.', results);
 
-            assert(!results.january);
-
-            assert.equal(results.january || 0, 0);
+            var results = analyzer.getResults();
+            assert(util.isArray(results));
+            assert.equal(results.length, 0);
 		});
 	});
 
     describe('Numeric analyzer', function () {
-        var analyzer = new analyzers.DigitsOnlyAnalyzer();
+        var analyzer;
+
+        beforeEach(function () {
+            analyzer = new analyzers.DigitsOnlyAnalyzer();
+        });
 
         it('should match passwords that are composed from numbers only', function () {
-            var results = {};
+            analyzer.analyze('123312');
+            analyzer.analyze('1234567890');
+            analyzer.analyze('00000000');
+            analyzer.analyze('1');
 
-            analyzer.analyze('123312', results);
-            analyzer.analyze('1234567890', results);
-            analyzer.analyze('00000000', results);
-            analyzer.analyze('1', results);
-
-            assert.equal(results.numeric, 4);
+            var results = analyzer.getResults();
+            assert.equal(results.total, 4);
+            assert.equal(results.code, 'numeric');
         });
 
         it('should not match passwords having at least one character which is not a number', function () {
@@ -52,7 +64,9 @@ describe('Analyzers', function () {
             analyzer.analyze('123456 ', results);
             analyzer.analyze('123,234,233', results);
 
-            assert.equal(results.numeric, 0);
+            var results = analyzer.getResults();
+            assert.equal(results.total, 0);
+            assert.equal(results.code, 'numeric');
         });
     });
 
