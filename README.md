@@ -3,7 +3,7 @@
 Password Analyzer
 ======================
 
-Node Passwords Analyzer is an API developed to aid in analysis of password lists. 
+**Passwords Analyzer** is an API developed to aid in analysis of password lists. 
 
 It allows to analyze existing passwords and based on the analysis system password requirements can be changed (say, increase minimum password length or password complexity by requiring special characters) in order to improve system security.
 

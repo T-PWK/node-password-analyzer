@@ -1,7 +1,7 @@
 {
   "name": "password-analyzer",
   "version": "0.0.1",
-  "description": "",
+  "description": "Passwords Analyzer is an API developed to aid in analysis of password lists",
   "main": "index.js",
   "scripts": {
     "test": "istanbul cover _mocha --report lcovonly"
@@ -13,10 +13,11 @@
   "contributors": [],
   "keywords": [
     "password",
-    "analyzer"
+    "analyzer",
+    "analysis"
   ],
   "author": {
-    "name": "Tom Pawlak",
+    "name": "Tom Pawlak <tompwk@gmail.com>",
     "url": "http://blog.tompawlak.org"
   },
   "homepage": "https://github.com/T-PWK/node-password-analyzer",
