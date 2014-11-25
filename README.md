@@ -24,19 +24,26 @@ passwords.forEach(passwordAnalyzer.analyze.bind(passwordAnalyzer));
 passwordAnalyzer.getResults(); // returns object with results of passwords analysis
 ```
 
+The `addGroup` function accepts two parameters:
+- a string specifying a group name - that name will appear in an analysis results object
+- an array or a single analyzer which can be:
+	- a string representing a pre-defined analyzer code (you can find analyzer codes below)
+	- an analyzer constructor (function) - a new analyzer will be instancieted using the given constructor
+	- an analyzer instance
+
 Example of password analysis results:
 
 ```js
 {
-total: 5, // total number of anlyzed passwords
-groups: [ // All analysis groups
-  { 
-    name: 'Character sets', // Group name
+	total: 5, // total number of anlyzed passwords
+	groups: [ // All analysis groups
+	{
+		name: 'Character sets', // Group name
 		analyzers:[             // Analyzers for the given group
-		  { code: 'numeric', count: 1 },     // Analyzer code (id) and number of passwords
-			                                 // matching rules of the given analyzer
-		  { code: 'loweralpha', count: 2 },
-		  { code: 'upperalpha', count: 1 }
+			{ code: 'numeric', count: 1 },	// Analyzer code (id) and number of passwords
+											// matching rules of the given analyzer
+			{ code: 'loweralpha', count: 2 },
+			{ code: 'upperalpha', count: 1 }
 		]
 	}, { 
 		name: 'Months', 
@@ -50,12 +57,12 @@ groups: [ // All analysis groups
 - `Analyzer` - base analyzer - it is can be extended to create other more specialized analyzers
 - `RegexAnalyzer` - regular expression analyzer - perform password analysis based on configured regular expressions (password matching) 
 - `MaskAnalyzer` - checks if a passwords is matched by a specific mask (see details below)
-- `DigitsOnlyAnalyzer` - checks if a password is composed from digits only
-- `LettersOnlyAnalyzer` - checks if a password is composed from letters only
-- `CapitalLettersOnlyAnalyzer` - checks if a password is composed from capital letters only 
-- `LowerLettersOnlyAnalyzer` -  checks if a password is composed from lowercase letters only
-- `MonthsAnalyzer` - checks if a password is composed from English month names (case insensetive) only
-- `PasswordLengthAnalyzer` - performs password lenght analysis
+- `DigitsOnlyAnalyzer` - (code: `numeric`) checks if a password is composed from digits only
+- `LettersOnlyAnalyzer` - (code: `lowerupperalpha`) checks if a password is composed from letters only
+- `CapitalLettersOnlyAnalyzer` - (code: `upperalpha`) checks if a password is composed from capital letters only 
+- `LowerLettersOnlyAnalyzer` -  (code: `loweralpha`) checks if a password is composed from lowercase letters only
+- `MonthsAnalyzer` - (code: `months`) checks if a password is composed from English month names (case insensetive) only
+- `PasswordLengthAnalyzer` - (code: `length`) performs password length analysis
 
 #### MaskAnalyzer ####
 Mask analyzer checks if a password is matched by a specific mask. The matching mask can be composed from elements as follows:
