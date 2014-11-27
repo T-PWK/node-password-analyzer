@@ -190,7 +190,7 @@
 			it('should throw exception if mask is invalid', function () {
 				assert.throws(function () { new analyzers.MaskAnalyzer(); });
 				assert.throws(function () { new analyzers.MaskAnalyzer(''); });
-				assert.throws(function () { new analyzers.MaskAnalyzer('foo'); });
+				assert.throws(function () { new analyzers.MaskAnalyzer(123); });
 			});
 
 			describe('should create analyzer', function () {
