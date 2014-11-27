@@ -253,6 +253,21 @@
 					assert.equal(results[0].code, '?s?s?s?s');
 					assert.equal(results[0].count, 4);
 				});
+
+				it("should analyze passwords with mask 'Password?d'", function () {
+					var analyzer = new analyzers.MaskAnalyzer('Password?d');
+
+					analyzer.analyze('Password1');
+					analyzer.analyze('Password0');
+					analyzer.analyze('Password2');
+					analyzer.analyze('password2');
+
+					var results = analyzer.getResults();
+
+					assert.equal(results.length, 1);
+					assert.equal(results[0].code, 'Password?d');
+					assert.equal(results[0].count, 3);
+				})
 			});
 		});
 	});
