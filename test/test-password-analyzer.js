@@ -58,9 +58,9 @@ describe("PasswordAnalyzer", function () {
 
 		// Verify if required analyzers are available
 		before(function () {
-			assert(analyzers.DigitsOnlyAnalyzer);
-			assert(analyzers.LowerLettersOnlyAnalyzer);
-			assert(analyzers.CapitalLettersOnlyAnalyzer);
+			assert(analyzers.NumericAnalyzer);
+			assert(analyzers.LowerAlphaAnalyzer);
+			assert(analyzers.UpperAlphaAnalyzer);
 		});
 
 		// Build new PasswordAnalyzer before each test
@@ -81,18 +81,18 @@ describe("PasswordAnalyzer", function () {
 
 		it('should setup groups with analyzers using analyzer constructors (functions)', function () {
 			passwordAnalyzer.addGroup('Character sets', [
-				analyzers.DigitsOnlyAnalyzer,
-				analyzers.LowerLettersOnlyAnalyzer,
-				analyzers.CapitalLettersOnlyAnalyzer
+				analyzers.NumericAnalyzer,
+				analyzers.LowerAlphaAnalyzer,
+				analyzers.UpperAlphaAnalyzer
 			]);
 			passwordAnalyzer.addGroup('Months', [ analyzers.MonthsAnalyzer ]);
 		});
 
 		it('should setup groups with analyzers using analyzer instances (objects)', function () {
 			passwordAnalyzer.addGroup('Character sets', [
-				new analyzers.DigitsOnlyAnalyzer(),
-				new analyzers.LowerLettersOnlyAnalyzer(),
-				new analyzers.CapitalLettersOnlyAnalyzer()
+				new analyzers.NumericAnalyzer(),
+				new analyzers.LowerAlphaAnalyzer(),
+				new analyzers.UpperAlphaAnalyzer()
 			]);
 			passwordAnalyzer.addGroup('Months', [new analyzers.MonthsAnalyzer()]);
 		});

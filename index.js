@@ -5,10 +5,15 @@
 	var analyzers = require('./lib/analyzers');
 
 	var analyzersMapping = {
-		numeric:			analyzers.DigitsOnlyAnalyzer,
-		lowerupperalpha:	analyzers.LettersOnlyAnalyzer,
-		upperalpha:			analyzers.CapitalLettersOnlyAnalyzer,
-		loweralpha:			analyzers.LowerLettersOnlyAnalyzer,
+		numeric:			analyzers.NumericAnalyzer,
+		mixedalpha:			analyzers.MixedAlphaAnalyzer,
+		upperalpha:			analyzers.UpperAlphaAnalyzer,
+		loweralpha:			analyzers.LowerAlphaAnalyzer,
+		loweralphanum:		analyzers.LowerAlphaNumAnalyzer,
+		mixedalphanum:		analyzers.MixedAlphaNumAnalyzer,
+		upperalphanum:		analyzers.UpperAlphaNumAnalyzer,
+		special:			analyzers.SpecialAnalyzer,
+		specialnum:			analyzers.SpecialNumAnalyzer,
 		months:				analyzers.MonthsAnalyzer,
 		bylength:			analyzers.PasswordLengthAnalyzer
 	};
