@@ -18,7 +18,8 @@
   ],
   "author": {
     "name": "Tom Pawlak <tompwk@gmail.com>",
-    "url": "http://blog.tompawlak.org"
+    "url": "http://blog.tompawlak.org",
+    "email": "tompwk@gmail.com"
   },
   "homepage": "https://github.com/T-PWK/node-password-analyzer",
   "licenses": [
