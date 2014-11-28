@@ -77,15 +77,16 @@
 			});
 
 			it('should match passwords that are composed from lower and upper letters only', function () {
-				analyzer.analyze('abcd');
-				analyzer.analyze('ABCD');
-				analyzer.analyze('abCD');
+				analyzer.analyze('abcd'); // do not match
+				analyzer.analyze('ABCD'); // do not match
+				analyzer.analyze('abCD'); // match
+				analyzer.analyze('abCD1'); // do not match
 
 				var results = analyzer.getResults();
 
 				assert.equal(results.length, 1);
 				assert.equal(results[0].code, 'mixedalpha');
-				assert.equal(results[0].count, 3);
+				assert.equal(results[0].count, 1);
 			});
 
 			it('should not match passwords having at least one character which is not a letter', function () {
@@ -161,20 +162,55 @@
 			});
 		});
 
+		describe('MixedAlphaNumAnalyzer', function () {
+			var analyzer = new analyzers.MixedAlphaNumAnalyzer();
+
+			it('should match passwords with uppercase and lowercase letters and numbers only', function () {
+				analyzer.analyze('abc'); // no
+				analyzer.analyze('A1232B'); // no
+				analyzer.analyze('A1232b'); // yes
+				analyzer.analyze('3424'); // no
+				analyzer.analyze('Abc2134'); // yes
+
+				var results = analyzer.getResults();
+
+				assert.equal(results.length, 1);
+				assert.equal(results[0].code, 'mixedalphanum');
+				assert.equal(results[0].count, 2);
+			});
+		});
+
+		describe('UpperAlphaNumAnalyzer', function () {
+			var analyzer = new analyzers.UpperAlphaNumAnalyzer();
+
+			it('should match passwords with uppercase letters and numbers only', function () {
+				analyzer.analyze('abc'); // no
+				analyzer.analyze('A1232B'); // yes
+				analyzer.analyze('3424'); // no
+				analyzer.analyze('Abc2134'); // no
+
+				var results = analyzer.getResults();
+
+				assert.equal(results.length, 1);
+				assert.equal(results[0].code, 'upperalphanum');
+				assert.equal(results[0].count, 1);
+			});
+		});
+
 		describe('LowerAlphaNumAnalyzer', function () {
 			var analyzer = new analyzers.LowerAlphaNumAnalyzer();
 
 			it('should match passwords with lowercase letters and numbers only', function () {
-				analyzer.analyze('abc'); // match
-				analyzer.analyze('ab1232'); // match
-				analyzer.analyze('3424'); // match
-				analyzer.analyze('Abc2134'); // do not match
+				analyzer.analyze('abc'); // no
+				analyzer.analyze('ab1232'); // yes
+				analyzer.analyze('3424'); // no
+				analyzer.analyze('Abc2134'); // no
 
 				var results = analyzer.getResults();
 
 				assert.equal(results.length, 1);
 				assert.equal(results[0].code, 'loweralphanum');
-				assert.equal(results[0].count, 3);
+				assert.equal(results[0].count, 1);
 			});
 		});
 
@@ -182,10 +218,10 @@
 			var analyzer = new analyzers.SpecialAnalyzer();
 
 			it('should match passwords with special letters only', function () {
-				analyzer.analyze('$%^'); // match
-				analyzer.analyze(' $"!'); // match
-				analyzer.analyze('!-='); // match
-				analyzer.analyze('!as'); // do not match
+				analyzer.analyze('$%^'); // yes
+				analyzer.analyze(' $"!'); // yes
+				analyzer.analyze('!-='); // yes
+				analyzer.analyze('!as'); // no
 
 				var results = analyzer.getResults();
 
@@ -199,17 +235,17 @@
 			var analyzer = new analyzers.SpecialNumAnalyzer();
 
 			it('should match passwords with special and numeric characters only', function () {
-				analyzer.analyze('$%^'); // match
-				analyzer.analyze(' $"!'); // match
-				analyzer.analyze('!-='); // match
-				analyzer.analyze('!123'); // match
-				analyzer.analyze('!asd'); // do not match
+				analyzer.analyze('$%^'); // no
+				analyzer.analyze(' $"!'); // no
+				analyzer.analyze('!-='); // no
+				analyzer.analyze('!123'); // yes
+				analyzer.analyze('!asd'); // no
 
 				var results = analyzer.getResults();
 
 				assert.equal(results.length, 1);
 				assert.equal(results[0].code, 'specialnum');
-				assert.equal(results[0].count, 4);
+				assert.equal(results[0].count, 1);
 			});
 		});
 
