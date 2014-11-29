@@ -4,6 +4,14 @@
 	var analyzers = require('../lib/analyzers');
 
 	describe('Analyzers', function () {
+
+		describe('Analyzer (base class)', function() {
+			it('should throw an exception if no code has been provided', function () {
+				assert.throws(function () {
+					new analyzers.Analyzer();
+				}, /Missing code/ );
+			})
+		});
 		
 		describe('MonthsAnalyzer', function () {
 			var analyzer;
@@ -39,224 +47,128 @@
 		});
 
 		describe('NumericAnalyzer', function () {
-			var analyzer;
-
-			beforeEach(function () {
-				analyzer = new analyzers.NumericAnalyzer();
-			});
-
 			it('should match passwords that are composed from numbers only', function () {
-				analyzer.analyze('123312');
-				analyzer.analyze('1234567890');
-				analyzer.analyze('00000000');
-				analyzer.analyze('1');
-
-				var results = analyzer.getResults();
-				assert.equal(results.length, 1);
-				assert.equal(results[0].code, 'numeric');
-				assert.equal(results[0].count, 4);
+				verifyAnalyzer(new analyzers.NumericAnalyzer(), ['123312', '1234567890', '00000000', '1'], 4);
 			});
 
 			it('should not match passwords having at least one character which is not a number', function () {
-				analyzer.analyze(' 00001212');
-				analyzer.analyze('123456 ');
-				analyzer.analyze('123,234,233');
-
-				var results = analyzer.getResults();
-				assert.equal(results.length, 1);
-				assert.equal(results[0].code, 'numeric');
-				assert.equal(results[0].count, 0);
+				verifyAnalyzer(new analyzers.NumericAnalyzer(), [' 123312', '123456 ', '123,234,233'], 0);
 			});
 		});
 
 		describe('MixedAlphaAnalyzer', function () {
-			var analyzer;
-
-			beforeEach(function () {
-				analyzer = new analyzers.MixedAlphaAnalyzer();
-			});
-
 			it('should match passwords that are composed from lower and upper letters only', function () {
-				analyzer.analyze('abcd'); // do not match
-				analyzer.analyze('ABCD'); // do not match
-				analyzer.analyze('abCD'); // match
-				analyzer.analyze('abCD1'); // do not match
-
-				var results = analyzer.getResults();
-
-				assert.equal(results.length, 1);
-				assert.equal(results[0].code, 'mixedalpha');
-				assert.equal(results[0].count, 1);
+				verifyAnalyzer(new analyzers.MixedAlphaAnalyzer(), ['abcd', 'ABCD', 'abCD', 'abCD1'], 1);
 			});
 
 			it('should not match passwords having at least one character which is not a letter', function () {
-				analyzer.analyze(' abcd');
-				analyzer.analyze('ABC1');
-
-				var results = analyzer.getResults();
-
-				assert.equal(results.length, 1);
-				assert.equal(results[0].code, 'mixedalpha');
-				assert.equal(results[0].count, 0);
+				verifyAnalyzer(new analyzers.MixedAlphaAnalyzer(), [' abcd', 'ABC1'], 0);
 			});
 		});
 
 		describe('UpperAlphaAnalyzer', function () {
-			var analyzer;
-
-			beforeEach(function () {
-				analyzer = new analyzers.UpperAlphaAnalyzer();
-			});
-
 			it('should match passwords that are composed from upper letters only', function () {
-				analyzer.analyze('A');
-				analyzer.analyze('ABCD');
-
-				var results = analyzer.getResults();
-
-				assert.equal(results.length, 1);
-				assert.equal(results[0].code, 'upperalpha');
-				assert.equal(results[0].count, 2);
+				verifyAnalyzer(new analyzers.UpperAlphaAnalyzer(), ['A', 'ABCD'], 2);
 			});
 
 			it('should not match passwords having at least one character which is not an upper letter', function () {
-				analyzer.analyze(' abcd');
-				analyzer.analyze('ABC1');
-				analyzer.analyze('ABCd');
-
-				var results = analyzer.getResults();
-
-				assert.equal(results.length, 1);
-				assert.equal(results[0].code, 'upperalpha');
-				assert.equal(results[0].count, 0);
+				verifyAnalyzer(new analyzers.UpperAlphaAnalyzer(), ['abcd', 'ABC1', 'ABCd'], 0);
 			});
 		});
 
 		describe('LowerAlphaAnalyzer', function () {
-			var analyzer;
-
-			beforeEach(function () {
-				analyzer = new analyzers.LowerAlphaAnalyzer();
-			});
-
 			it('should match passwords that are composed from lower letters only', function () {
-				analyzer.analyze('a');
-				analyzer.analyze('abcd');
-
-				var results = analyzer.getResults();
-				assert.equal(results.length, 1);
-				assert.equal(results[0].code, 'loweralpha');
-				assert.equal(results[0].count, 2);
+				verifyAnalyzer(new analyzers.LowerAlphaAnalyzer(), ['a', 'abcd'], 2);
 			});
 
 			it('should not match passwords having at least one character which is not a lower letter', function () {
-				analyzer.analyze(' abcd');
-				analyzer.analyze('abc1');
-				analyzer.analyze('abcD');
-
-				var results = analyzer.getResults();
-
-				assert.equal(results.length, 1);
-				assert.equal(results[0].code, 'loweralpha');
-				assert.equal(results[0].count, 0);
+				verifyAnalyzer(new analyzers.LowerAlphaAnalyzer(), [' abcd', 'abc1', 'abcD'], 0);
 			});
 		});
 
 		describe('MixedAlphaNumAnalyzer', function () {
-			var analyzer = new analyzers.MixedAlphaNumAnalyzer();
-
 			it('should match passwords with uppercase and lowercase letters and numbers only', function () {
-				analyzer.analyze('abc'); // no
-				analyzer.analyze('A1232B'); // no
-				analyzer.analyze('A1232b'); // yes
-				analyzer.analyze('3424'); // no
-				analyzer.analyze('Abc2134'); // yes
-
-				var results = analyzer.getResults();
-
-				assert.equal(results.length, 1);
-				assert.equal(results[0].code, 'mixedalphanum');
-				assert.equal(results[0].count, 2);
+				verifyAnalyzer(new analyzers.MixedAlphaNumAnalyzer(), ['abc', 'A1232B', 'A1232b', '3424', 'Abc2134'], 2);
 			});
 		});
 
 		describe('UpperAlphaNumAnalyzer', function () {
-			var analyzer = new analyzers.UpperAlphaNumAnalyzer();
-
 			it('should match passwords with uppercase letters and numbers only', function () {
-				analyzer.analyze('abc'); // no
-				analyzer.analyze('A1232B'); // yes
-				analyzer.analyze('3424'); // no
-				analyzer.analyze('Abc2134'); // no
-
-				var results = analyzer.getResults();
-
-				assert.equal(results.length, 1);
-				assert.equal(results[0].code, 'upperalphanum');
-				assert.equal(results[0].count, 1);
+				verifyAnalyzer(new analyzers.UpperAlphaNumAnalyzer(), ['abc', 'A1232B', '3424', 'Abc2134'], 1);
 			});
 		});
 
 		describe('LowerAlphaNumAnalyzer', function () {
-			var analyzer = new analyzers.LowerAlphaNumAnalyzer();
-
 			it('should match passwords with lowercase letters and numbers only', function () {
-				analyzer.analyze('abc'); // no
-				analyzer.analyze('ab1232'); // yes
-				analyzer.analyze('3424'); // no
-				analyzer.analyze('Abc2134'); // no
-
-				var results = analyzer.getResults();
-
-				assert.equal(results.length, 1);
-				assert.equal(results[0].code, 'loweralphanum');
-				assert.equal(results[0].count, 1);
+				verifyAnalyzer(new analyzers.LowerAlphaNumAnalyzer(), ['abcd', 'ab1232', '3424', 'Abc2134'], 1);
 			});
 		});
 
 		describe('SpecialAnalyzer', function () {
-			var analyzer = new analyzers.SpecialAnalyzer();
-
 			it('should match passwords with special letters only', function () {
-				analyzer.analyze('$%^'); // yes
-				analyzer.analyze(' $"!'); // yes
-				analyzer.analyze('!-='); // yes
-				analyzer.analyze('!as'); // no
-
-				var results = analyzer.getResults();
-
-				assert.equal(results.length, 1);
-				assert.equal(results[0].code, 'special');
-				assert.equal(results[0].count, 3);
+				verifyAnalyzer(new analyzers.SpecialAnalyzer(), ['$%^', ' $"!', '!-=', '!as'], 3);
 			});
 		});
 
 		describe('SpecialNumAnalyzer', function () {
-			var analyzer = new analyzers.SpecialNumAnalyzer();
-
 			it('should match passwords with special and numeric characters only', function () {
-				analyzer.analyze('$%^'); // no
-				analyzer.analyze(' $"!'); // no
-				analyzer.analyze('!-='); // no
-				analyzer.analyze('!123'); // yes
-				analyzer.analyze('!asd'); // no
+				verifyAnalyzer(new analyzers.SpecialNumAnalyzer(), ['$%^', ' $"!', '!-=', '!123', '!asd'], 1);
+			});
+		});
 
-				var results = analyzer.getResults();
+		describe('LowerAlphaSpecialNumAnalyzer', function () {
+			it('should match passwords composed of special and loweralpha characters and numbers only', function () {
+				verifyAnalyzer(new analyzers.LowerAlphaSpecialNumAnalyzer(), 
+					['asdf', '234', '$asdd', '!-=', '!123', '!asd1'], 1);
+			});
+		});
 
-				assert.equal(results.length, 1);
-				assert.equal(results[0].code, 'specialnum');
-				assert.equal(results[0].count, 1);
+		describe('LowerAlphaSpecialNumAnalyzer', function () {
+			it('should match passwords composed of special and loweralpha characters and numbers only', function () {
+				verifyAnalyzer(new analyzers.LowerAlphaSpecialNumAnalyzer(), 
+					['asdf', '234', '$asdd', '!-=', '!123', '!asd1', '!Asd1'], 1);
+			});
+		});
+
+		describe('MixedAlphaSpecialAnalyzer', function () {
+			it('should match passwords composed of special and loweralpha characters and numbers only', function () {
+				verifyAnalyzer(new analyzers.MixedAlphaSpecialAnalyzer(), 
+					['asdf', 'ABC', '$asdd', '!-=', '!ABC', '!asd1', '!Asd1', '!Asd'], 1);
+			});
+		});
+
+		describe('UpperAlphaSpecialNumAnalyzer', function () {
+			it('should match passwords composed of special and loweralpha characters and numbers only', function () {
+				verifyAnalyzer(new analyzers.UpperAlphaSpecialNumAnalyzer(), 
+					['asdf', 'ABC', '$asdd', '!-=', '!ABC', '!asd1', '!Asd1', '!ASD1','!Asd'], 1);
+			});
+		});
+
+		describe('LowerAlphaSpecialAnalyzer', function () {
+			it('should match passwords composed of loweralpha and special characters only', function () {
+				verifyAnalyzer(new analyzers.LowerAlphaSpecialAnalyzer(), 
+					['asdf', 'ABC', '$asdd', '!-=', '!ABC', '!asd1', '!Asd1', '!ASD1','!Asd'], 1);
+			});
+		});
+
+		describe('UpperAlphaSpecialAnalyzer', function () {
+			it('should match passwords composed of special and upperalpha and special characters only', function () {
+				verifyAnalyzer(new analyzers.UpperAlphaSpecialAnalyzer(), 
+					['asdf', 'ABC', '$asdd', '!-=', '!ABC', '!asd1', '!Asd1', '!ASD1','!Asd'], 1);
+			});
+		});
+
+		describe('AllCharsAnalyzer', function () {
+			it('should match passwords composed of all character types (lower, upper, special and number)', function () {
+				verifyAnalyzer(new analyzers.AllCharsAnalyzer(), 
+					['asdf', 'ABC', '$asdd', '!-=', '!ABC', '!asd1', '!Asd1', '!ASD1','!Asd'], 1);
 			});
 		});
 
 		describe('PasswordLengthAnalyzer', function () {
-			var analyzer;
-
-			beforeEach(function () {
-				analyzer = new analyzers.PasswordLengthAnalyzer();
-			});
-
 			it('should populate results with length for each password', function () {
+				var analyzer = new analyzers.PasswordLengthAnalyzer();
+
 				analyzer.analyze('a');
 				analyzer.analyze('abcd');
 				analyzer.analyze('foobar');
@@ -283,96 +195,44 @@
 
 			describe('should create analyzer', function () {
 
-				it("should analyze passwords composed of '?l' tokens only", function () {
-					var analyzer = new analyzers.MaskAnalyzer('?l?l?l?l');
-
-					analyzer.analyze('abcd');
-					analyzer.analyze('abcde');
-					analyzer.analyze('abcde');
-					analyzer.analyze('Abcd');
-
-					var results = analyzer.getResults();
-
-					assert.equal(results.length, 1);
-					assert.equal(results[0].code, '?l?l?l?l');
-					assert.equal(results[0].count, 1);
+				it("should analyze passwords composed of several '?l' tokens only", function () {
+					verifyAnalyzer(new analyzers.MaskAnalyzer('?l?l?l?l'), ['abcd', 'abcde', 'abcde', 'Abcd'], 1);
 				});
 
-				it("should analyze passwords composed of '?u' tokens only", function () {
-					var analyzer = new analyzers.MaskAnalyzer('?u?u?u?u');
-
-					analyzer.analyze('ABCD');
-					analyzer.analyze('ABCDE');
-					analyzer.analyze('Abcd');
-
-					var results = analyzer.getResults();
-
-					assert.equal(results.length, 1);
-					assert.equal(results[0].code, '?u?u?u?u');
-					assert.equal(results[0].count, 1);
+				it("should analyze passwords composed of letters and '?l' token only", function () {
+					verifyAnalyzer(new analyzers.MaskAnalyzer('Password?l'), ['abcd', 'Password1', 'Password', 'Passworda'], 1);
 				});
 
-				it("should analyze passwords composed of '?d' tokens only", function () {
-					var analyzer = new analyzers.MaskAnalyzer('?d?d?d?d');
-
-					analyzer.analyze('1234');
-					analyzer.analyze('12345');
-					analyzer.analyze('1234a');
-
-					var results = analyzer.getResults();
-
-					assert.equal(results.length, 1);
-					assert.equal(results[0].code, '?d?d?d?d');
-					assert.equal(results[0].count, 1);
+				it("should analyze passwords composed of several '?u' tokens only", function () {
+					verifyAnalyzer(new analyzers.MaskAnalyzer('?u?u?u?u'), ['ABCD', 'ABCDE', 'Abcd'], 1);
 				});
 
-				it("should analyze passwords composed of '?s' tokens only", function () {
-					var analyzer = new analyzers.MaskAnalyzer('?s?s?s?s');
-
-					analyzer.analyze('**{}');
-					analyzer.analyze(' *[]');
-					analyzer.analyze(' *[!');
-					analyzer.analyze(' !`@');
-					analyzer.analyze('**{}*');
-					analyzer.analyze('**{}a');
-
-					var results = analyzer.getResults();
-
-					assert.equal(results.length, 1);
-					assert.equal(results[0].code, '?s?s?s?s');
-					assert.equal(results[0].count, 4);
+				it("should analyze passwords composed of letters and '?u' token only", function () {
+					verifyAnalyzer(new analyzers.MaskAnalyzer('Password?u'), ['Password', 'Passworda', 'PasswordA'], 1);
 				});
 
-				it("should analyze passwords composed of '?a' tokens only", function () {
-					var analyzer = new analyzers.MaskAnalyzer('?a?a?a?a');
-
-					analyzer.analyze('Pas!');
-					analyzer.analyze('Pa*2');
-					analyzer.analyze('1234');
-					analyzer.analyze('abcd');
-					analyzer.analyze('ABCD');
-					analyzer.analyze('*{} ');
-
-					var results = analyzer.getResults();
-
-					assert.equal(results.length, 1);
-					assert.equal(results[0].code, '?a?a?a?a');
-					assert.equal(results[0].count, 6);
+				it("should analyze passwords composed of several '?d' tokens only", function () {
+					verifyAnalyzer(new analyzers.MaskAnalyzer('?d?d?d?d'), ['1234', '12345', '1234a'], 1);
 				});
 
-				it("should analyze passwords with mask composed of letters and tokens e.g. 'Password?d'", function () {
-					var analyzer = new analyzers.MaskAnalyzer('Password?d');
+				it("should analyze passwords with mask composed of letters and a '?d' token only", function () {
+					verifyAnalyzer(new analyzers.MaskAnalyzer('Password?d'), ['Password1','Password0','Password2','password2'], 3);
+				});
 
-					analyzer.analyze('Password1');
-					analyzer.analyze('Password0');
-					analyzer.analyze('Password2');
-					analyzer.analyze('password2');
+				it("should analyze passwords composed of several '?s' tokens only", function () {
+					verifyAnalyzer(new analyzers.MaskAnalyzer('?s?s?s?s'), ['**{}', ' *[]', ' *[!', ' !`@', '**{}*', '**{}a'], 4);
+				});
 
-					var results = analyzer.getResults();
+				it("should analyze passwords composed of letters and a '?s' token only", function () {
+					verifyAnalyzer(new analyzers.MaskAnalyzer('Password?s'), ['Password1','PasswordA','Password.','password!'], 1);
+				});
 
-					assert.equal(results.length, 1);
-					assert.equal(results[0].code, 'Password?d');
-					assert.equal(results[0].count, 3);
+				it("should analyze passwords composed of several '?a' tokens only", function () {
+					verifyAnalyzer(new analyzers.MaskAnalyzer('?a?a?a?a'), ['Pas!','Pa*2','1234','abcd','ABCD','*{} '], 6);
+				});
+
+				it("should analyze passwords composed of letters and a '?a' tokens only", function () {
+					verifyAnalyzer(new analyzers.MaskAnalyzer('Password?a'), ['Password1','PasswordA','Password.','password!'], 3);
 				});
 			});
 		});
@@ -382,6 +242,16 @@
 		return results.filter(function (result) {
 			return result.code == code;
 		})[0];
+	}
+
+	function verifyAnalyzer (analyzer, passwords, count, args) {
+		passwords.forEach(analyzer.analyze.bind(analyzer));
+
+		var results = analyzer.getResults();
+
+		assert.equal(results.length, 1);
+		assert.equal(results[0].code, analyzer.code);
+		assert.equal(results[0].count, count);					
 	}
 
 }());
