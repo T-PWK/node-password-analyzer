@@ -5,17 +5,23 @@
 	var analyzers = require('./lib/analyzers');
 
 	var analyzersMapping = {
-		numeric:			analyzers.NumericAnalyzer,
-		mixedalpha:			analyzers.MixedAlphaAnalyzer,
-		upperalpha:			analyzers.UpperAlphaAnalyzer,
-		loweralpha:			analyzers.LowerAlphaAnalyzer,
-		loweralphanum:		analyzers.LowerAlphaNumAnalyzer,
-		mixedalphanum:		analyzers.MixedAlphaNumAnalyzer,
-		upperalphanum:		analyzers.UpperAlphaNumAnalyzer,
-		special:			analyzers.SpecialAnalyzer,
-		specialnum:			analyzers.SpecialNumAnalyzer,
-		months:				analyzers.MonthsAnalyzer,
-		bylength:			analyzers.PasswordLengthAnalyzer
+		numeric:				analyzers.NumericAnalyzer,
+		mixedalpha:				analyzers.MixedAlphaAnalyzer,
+		upperalpha:				analyzers.UpperAlphaAnalyzer,
+		loweralpha:				analyzers.LowerAlphaAnalyzer,
+		loweralphanum:			analyzers.LowerAlphaNumAnalyzer,
+		mixedalphanum:			analyzers.MixedAlphaNumAnalyzer,
+		upperalphanum:			analyzers.UpperAlphaNumAnalyzer,
+		special:				analyzers.SpecialAnalyzer,
+		specialnum:				analyzers.SpecialNumAnalyzer,
+		months:					analyzers.MonthsAnalyzer,
+		bylength:				analyzers.PasswordLengthAnalyzer,
+		loweralphaspecialnum: 	analyzers.LowerAlphaSpecialNumAnalyzer,
+		mixedalphaspecial: 		analyzers.MixedAlphaSpecialAnalyzer,
+		upperalphaspecialnum: 	analyzers.UpperAlphaSpecialNumAnalyzer,
+		loweralphaspecial: 		analyzers.LowerAlphaSpecialAnalyzer,
+		upperalphaspecial: 		analyzers.UpperAlphaSpecialAnalyzer,
+		all: 					analyzers.AllCharsAnalyzer
 	};
 
 	function PasswordAnalyzer () {
