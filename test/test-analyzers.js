@@ -10,7 +10,7 @@
 				assert.throws(function () {
 					new analyzers.Analyzer();
 				}, /Missing code/ );
-			})
+			});
 		});
 		
 		describe('MonthsAnalyzer', function () {
