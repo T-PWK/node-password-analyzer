@@ -1,6 +1,6 @@
 {
   "name": "password-analyzer",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Passwords Analyzer is an API developed to aid in analysis of password lists",
   "main": "index.js",
   "scripts": {
