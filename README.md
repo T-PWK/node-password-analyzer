@@ -54,27 +54,34 @@ Example of password analysis results:
 
 ### Available Analyzers ###
 
+- `AllCharsAnalyzer` - (code: `all`) 
 - `Analyzer` - base analyzer - it is can be extended to create other more specialized analyzers
-- `RegexAnalyzer` - regular expression analyzer - perform password analysis based on configured regular expressions (password matching) 
+- `LowerAlphaAnalyzer` -  (code: `loweralpha`) checks if a password is composed of lowercase letters only
+- `LowerAlphaNumAnalyzer` - (code `loweralphanum`) checks if a password is composed of lowercase letters and numbers only
+- `LowerAlphaSpecialAnalyzer` - (code `loweralphaspecial`) checks if a password is composed of lowercase and special characters only
+- `LowerAlphaSpecialNumAnalyzer` - (code `loweralphaspecialnum`) checks if a password is composed of: lowercase, special and numbers only
 - `MaskAnalyzer` - checks if a passwords is matched by a specific mask (see details below)
-- `DigitsOnlyAnalyzer` - (code: `numeric`) checks if a password is composed from digits only
-- `LettersOnlyAnalyzer` - (code: `lowerupperalpha`) checks if a password is composed from letters only
-- `CapitalLettersOnlyAnalyzer` - (code: `upperalpha`) checks if a password is composed from capital letters only 
-- `LowerLettersOnlyAnalyzer` -  (code: `loweralpha`) checks if a password is composed from lowercase letters only
-- `MonthsAnalyzer` - (code: `months`) checks if a password is composed from English month names (case insensetive) only
+- `MixedAlphaAnalyzer` - (code: `mixedalpha`) checks if a password is composed of letters only
+- `MixedAlphaNumAnalyzer` - (code `mixedalphanum`) checks if a password is composed of upper and lowercase letters only
+- `MixedAlphaSpecialAnalyzer` - (code `mixedalphaspecial`) checks if a password is composed of: uppercase, lowercase and special characters only
+- `MonthsAnalyzer` - (code: `months`) checks if a password is composed of English month names (case insensetive) only
+- `NumericAnalyzer` - (code: `numeric`) checks if a password is composed of digits only
 - `PasswordLengthAnalyzer` - (code: `length`) performs password length analysis
+- `RegexAnalyzer` - regular expression analyzer - perform password analysis based on configured regular expressions (password matching)
+- `SpecialAnalyzer` - (code: `special`) checks if a password is composed of special characters only
+- `SpecialNumAnalyzer` - (code: `specialnum`) checks if a password is composed of digits and special characters only
+- `UpperAlphaAnalyzer` - (code: `upperalpha`) checks if a password is composed of capital letters only 
+- `UpperAlphaNumAnalyzer` - (code: `upperalphanum`) checks if a password is composed of capital letters and digits only 
+- `UpperAlphaSpecialAnalyzer` - (code: `upperalphaspecial`) checks if a password is composed of capital letters and special characters only 
+- `UpperAlphaSpecialNumAnalyzer` - (code: `upperalphaspecialnum`) checks if a password is composed of: capital letters, special characters and digits only 
 
 #### MaskAnalyzer ####
-Mask analyzer checks if a password is matched by a specific mask. The matching mask can be composed from elements as follows:
+Mask analyzer checks if a password is matched by a specific mask. The matching mask can be composed of letters and some masks as follows:
 - `?l` - matches a single lowercase character
 - `?u` - matches a single uppercase character
 - `?d` - matches a single digit
-- `?s` - matches a single special character i.e. one of:
-
-``` 
-!\"#$%&'()*+,-./:;<=>?@[\\]^\_`{|}~
-```
-and a _space character_.
+- `?s` - matches a single special character i.e. one of: `!\"#$%&'()*+,-./:;<=>?@[\\]^\_``{|}~«space»`
+- `?a` - matches any single characters i.e. `?l` or `?u` or `?d` or `?s`
 
 So a password like this _foo123_ would be matched by the following mask: `?l?l?l?d?d?d`.
 
