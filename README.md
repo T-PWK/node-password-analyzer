@@ -21,7 +21,8 @@ passwordAnalyzer.addGroup('Months', ['months']);
 var passwords = [ '123456', 'abcdef', 'foobar', 'ABC', 'January' ];
 passwords.forEach(passwordAnalyzer.analyze.bind(passwordAnalyzer));
 
-passwordAnalyzer.getResults(); // returns object with results of passwords analysis
+// returns object with results of passwords analysis
+passwordAnalyzer.getResults();
 ```
 
 The `addGroup` function accepts two parameters:
@@ -38,10 +39,13 @@ Example of password analysis results:
 	total: 5, // total number of anlyzed passwords
 	groups: [ // All analysis groups
 	{
-		name: 'Character sets', // Group name
-		analyzers:[             // Analyzers for the given group
-			{ code: 'numeric', count: 1 },	// Analyzer code (id) and number of passwords
-											// matching rules of the given analyzer
+		// Group name
+		name: 'Character sets', 
+
+		// Analyzers for the given group
+		analyzers:[
+			// Analyzer code (id) and number of passwords matching rules of the given analyzer
+			{ code: 'numeric', count: 1 },
 			{ code: 'loweralpha', count: 2 },
 			{ code: 'upperalpha', count: 1 }
 		]
