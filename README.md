@@ -80,7 +80,7 @@ Mask analyzer checks if a password is matched by a specific mask. The matching m
 - `?l` - matches a single lowercase character
 - `?u` - matches a single uppercase character
 - `?d` - matches a single digit
-- `?s` - matches a single special character i.e. one of: `!\"#$%&'()*+,-./:;<=>?@[\\]^\_``{|}~«space»`
+- `?s` - matches a single special character i.e. one of: `!"#$%&'()*+,-./:;<=>?@[\]^_``{|}~«space»`
 - `?a` - matches any single characters i.e. `?l` or `?u` or `?d` or `?s`
 
 So a password like this _foo123_ would be matched by the following mask: `?l?l?l?d?d?d`.
