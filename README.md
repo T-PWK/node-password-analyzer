@@ -1,4 +1,7 @@
-[![Build Status](https://travis-ci.org/T-PWK/node-password-analyzer.svg?branch=master)](https://travis-ci.org/T-PWK/node-password-analyzer) [![npm version](https://badge.fury.io/js/password-analyzer.svg)](http://badge.fury.io/js/password-analyzer) [![Dependency Status](https://gemnasium.com/T-PWK/node-password-analyzer.svg)](https://gemnasium.com/T-PWK/node-password-analyzer) [![Code Climate](https://codeclimate.com/github/T-PWK/node-password-analyzer/badges/gpa.svg)](https://codeclimate.com/github/T-PWK/node-password-analyzer) [![Test Coverage](https://codeclimate.com/github/T-PWK/node-password-analyzer/badges/coverage.svg)](https://codeclimate.com/github/T-PWK/node-password-analyzer)
+[![Build Status](https://travis-ci.org/T-PWK/node-password-analyzer.svg?branch=master)](https://travis-ci.org/T-PWK/node-password-analyzer) 
+[![npm version](https://badge.fury.io/js/password-analyzer.svg)](http://badge.fury.io/js/password-analyzer) 
+[![Code Climate](https://codeclimate.com/github/T-PWK/node-password-analyzer/badges/gpa.svg)](https://codeclimate.com/github/T-PWK/node-password-analyzer) 
+[![Test Coverage](https://codeclimate.com/github/T-PWK/node-password-analyzer/badges/coverage.svg)](https://codeclimate.com/github/T-PWK/node-password-analyzer)
 
 Password Analyzer
 ======================
@@ -90,10 +93,10 @@ Mask analyzer checks if a password is matched by a specific mask. The matching m
 So a password like this _foo123_ would be matched by the following mask: `?l?l?l?d?d?d`.
 
 ## Author ##
-Writen by Tom Pawlak - [Blog](http://blog.tompawlak.org)
+Writen by Tom Pawlak - [Blog](https://blog.abelotech.com)
 
 ## License ##
 
 Copyright (c) 2014 Tom Pawlak
 
-MIT License : http://blog.tompawlak.org/mit-license
+MIT License : https://blog.abelotech.com/mit-license/
