@@ -1,13 +1,16 @@
 language: node_js
+
 node_js:
-  - 0.10
-  - 0.11
-  - 0.8
+  - "10"
+  - "8"
+
 notifications:
   email: false
-install:
+
+before_install:
   - npm install -g istanbul
   - npm install -g mocha
   - npm install -g codeclimate-test-reporter
+
 after_success:
   - CODECLIMATE_REPO_TOKEN=f543be9352f586fdcb4f69b461bd5e629d2c2f2f84dfe9543557fbccfbbc6931 codeclimate < ./coverage/lcov.info
