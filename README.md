@@ -32,7 +32,7 @@ The `addGroup` function accepts two parameters:
 - a string specifying a group name - that name will appear in an analysis results object
 - an array or a single analyzer which can be:
 	- a string representing a pre-defined analyzer code (you can find analyzer codes below)
-	- an analyzer constructor (function) - a new analyzer will be instancieted using the given constructor
+	- an analyzer constructor (function) - a new analyzer will be instantiated using the given constructor
 	- an analyzer instance
 
 Example of password analysis results:
@@ -71,7 +71,7 @@ Example of password analysis results:
 - `MixedAlphaAnalyzer` - (code: `mixedalpha`) checks if a password is composed of letters only
 - `MixedAlphaNumAnalyzer` - (code `mixedalphanum`) checks if a password is composed of upper and lowercase letters only
 - `MixedAlphaSpecialAnalyzer` - (code `mixedalphaspecial`) checks if a password is composed of: uppercase, lowercase and special characters only
-- `MonthsAnalyzer` - (code: `months`) checks if a password is composed of English month names (case insensetive) only
+- `MonthsAnalyzer` - (code: `months`) checks if a password is composed of English month names (case insensitive) only
 - `NumericAnalyzer` - (code: `numeric`) checks if a password is composed of digits only
 - `PasswordLengthAnalyzer` - (code: `length`) performs password length analysis
 - `RegexAnalyzer` - regular expression analyzer - perform password analysis based on configured regular expressions (password matching)
@@ -93,7 +93,7 @@ Mask analyzer checks if a password is matched by a specific mask. The matching m
 So a password like this _foo123_ would be matched by the following mask: `?l?l?l?d?d?d`.
 
 ## Author ##
-Writen by Tom Pawlak - [Blog](https://blog.abelotech.com)
+Written by Tom Pawlak - [Blog](https://blog.abelotech.com)
 
 ## License ##
 

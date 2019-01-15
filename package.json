@@ -1,6 +1,6 @@
 {
   "name": "password-analyzer",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Passwords Analyzer is an API developed to aid in analysis of password lists",
   "main": "index.js",
   "scripts": {
@@ -18,14 +18,14 @@
   ],
   "author": {
     "name": "Tom Pawlak <tompwk@gmail.com>",
-    "url": "http://blog.tompawlak.org",
+    "url": "https://blog.abelotech.com",
     "email": "tompwk@gmail.com"
   },
   "homepage": "https://github.com/T-PWK/node-password-analyzer",
   "licenses": [
     {
       "type": "MIT",
-      "url": "http://blog.tompawlak.org/mit-license"
+      "url": "https://blog.abelotech.com/mit-license/"
     }
   ],
   "bugs": {
